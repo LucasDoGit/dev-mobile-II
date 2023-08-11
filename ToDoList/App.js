@@ -31,7 +31,6 @@ export default function App() {
     <View style={styles.container}>
       <Header />
       <TodoList itens={tarefas} trocaEstado={trocaEstado} deleta={deleta} />
-      <Text>Aplicativo ToDoList</Text>
       <StatusBar style="auto" />
     </View>
   );

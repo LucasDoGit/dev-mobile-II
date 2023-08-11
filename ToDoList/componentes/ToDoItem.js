@@ -1,14 +1,14 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Switch } from 'react-native';
 
-const ToDoItem = ({ item, trocaEstado, deleta }) => {
+const TodoItem = ({ item, trocaEstado, deleta }) => {
     return (
       <View style={styles.todoItem}>
         <Switch 
             value={item.completado}
             onValueChange={() => trocaEstado(item.id)}    
         />
-        <Text style={item.completado ? style.completedText : StyleSheet.text}>
+        <Text style={item.completado ? styles.completedText : styles.text}>
             {item.text}
         </Text>
         <TouchableOpacity onPress={() => deleta(item.id)}>
@@ -43,4 +43,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ToDoItem;
+export default TodoItem;
