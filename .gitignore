@@ -128,7 +128,3 @@ dist
 
 # node modules
 .node_modules
-ToDoList/assets/adaptive-icon.png
-ToDoList/assets/icon.png
-ToDoList/assets/favicon.png
-ToDoList/assets/splash.png
