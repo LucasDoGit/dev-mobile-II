@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View, StyleSheet, FlatList, Button } from 'react-native';
-import ToDoItem from '../componentes/ToDoItem'
+import ToDoItem from '../componentes/ToDoItem';
 import { useNavigation } from '@react-navigation/native';
 
 const TodoList = ({ itens, trocaEstado, deleta }) => {
@@ -17,7 +17,7 @@ const TodoList = ({ itens, trocaEstado, deleta }) => {
                 )}
                 keyExtractor={item => item.id}
             />
-            <Button title="Adicionar Tarefa" onPress={navegaAddTarefa}/>
+            <Button title="Adicionar Tarefa" onPress={navegaAddTarefa}/>      
         </View>
     );
 };

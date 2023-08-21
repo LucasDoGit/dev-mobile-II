@@ -12,12 +12,11 @@ const TodoItem = ({ item, trocaEstado, deleta }) => {
             {item.text}
         </Text>
         <TouchableOpacity onPress={() => deleta(item.id)}>
-            <Text style={StyleSheet.deleteButton}>Excluir</Text>
+            <Text style={styles.deleteButton}>Excluir</Text>
         </TouchableOpacity>
       </View>  
     );
 };
-
 
 const styles = StyleSheet.create({
     todoItem: {
