@@ -26,10 +26,10 @@ export default function App() {
     })
   }
 
-  const adicionaTarefa = (text) => {
+  const adicionaTarefa = (tarefa) => {
     setTarefas((Tarefas) => [
       ...Tarefas,
-      { id: Date.now(), text: text, completed: false },
+      { id: Date.now(), tarefa: tarefa, completed: false },
     ]);
   };
 

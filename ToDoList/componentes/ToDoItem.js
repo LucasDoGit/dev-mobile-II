@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Switch, LayoutAnimation, UIManager, Platform } from 'react-native';
+import React, { useState, useRef, useEffect } from 'react';
+import { Animated, View, Text, TouchableOpacity, StyleSheet, Switch, LayoutAnimation, UIManager, Platform } from 'react-native';
 
 if(Platform.OS === 'android') {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -7,13 +7,22 @@ if(Platform.OS === 'android') {
 
 const TodoItem = ({ item, trocaEstado, deleta }) => {
     const [isExpanded, setIsExpanded] = useState(false);
+    const animationValue = useRef(new Animated.Value(0)).current
     const expanded = () => {
         LayoutAnimation.spring()
         setIsExpanded(!isExpanded)
     }
 
+    useEffect(() => {
+        Animated.timing(animationValue, {
+            toValue: item.completado ? 0.25 : 1, //ajusta a opacidade conforme necessario
+            duration: 1000,
+            useNativeDriver: true,
+        }).start();
+    }, [item.completado])
+
     return (
-      <View style={styles.container}>
+      <Animated.View style={[styles.container, {opacity: animationValue}]}>
         <View style={styles.todoItem}>
             <Switch 
                 value={item.completado}
@@ -21,7 +30,7 @@ const TodoItem = ({ item, trocaEstado, deleta }) => {
             />
         <TouchableOpacity onPress={expanded}>
             <Text style={item.completado ? styles.completedText : styles.text}>
-                {item.text.nome}
+                {item.tarefa.nome}
             </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => deleta(item.id)}>
@@ -34,7 +43,7 @@ const TodoItem = ({ item, trocaEstado, deleta }) => {
                 <Text style={styles.text}><Text style={{fontWeight: 'bold'}}>&#8226; Descrição: </Text>{item.tarefa.descricao}</Text>
             </View>      
         )}
-      </View>
+      </Animated.View>
     );
 };
 
