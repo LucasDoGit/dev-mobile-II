@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Animated, View, Text, TouchableOpacity, StyleSheet, Switch, LayoutAnimation, UIManager, Platform } from 'react-native';
+import React, { useState, useRef, useEffect, useTransition } from 'react';
+import { Animated, PanResponder, View, Text, TouchableOpacity, StyleSheet, Switch, LayoutAnimation, UIManager, Platform } from 'react-native';
 
 if(Platform.OS === 'android') {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -8,6 +8,25 @@ if(Platform.OS === 'android') {
 const TodoItem = ({ item, trocaEstado, deleta }) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const animationValue = useRef(new Animated.Value(0)).current
+    const pan = useRef(new Animated.ValueXY()).current;
+
+    const panResponder = useRef(PanResponder.create({
+        onMoveShouldSetPanResponder: () => true, // Em movimento ele ativa o define o PanResponder
+        onPanResponderMove: Animated.event([null, {dx: pan.x}], { useNativeDriver: false }), // Em movimento atualiza os valores definidos.
+        onPanResponderRelease: (_, gestureState) => { // Ao soltar o elemento ele atualiza/verifica os valores. 
+            if(gestureState.dx < -200) {
+                deleta(item.id)
+            }
+            else {
+                Animated.spring(
+                    pan,
+                    {toValue: {x: 0, y: 0},
+                useNativeDriver: false},
+                ).start()
+            }
+        },
+    })).current
+
     const expanded = () => {
         LayoutAnimation.spring()
         setIsExpanded(!isExpanded)
@@ -17,25 +36,25 @@ const TodoItem = ({ item, trocaEstado, deleta }) => {
         Animated.timing(animationValue, {
             toValue: item.completado ? 0.25 : 1, //ajusta a opacidade conforme necessario
             duration: 1000,
-            useNativeDriver: true,
+            useNativeDriver: false,
         }).start();
     }, [item.completado])
 
     return (
-      <Animated.View style={[styles.container, {opacity: animationValue}]}>
+      <Animated.View {...panResponder.panHandlers} // funcao que busca todas os objetos do panResponder
+            style={[pan.getLayout(), styles.container, {opacity: animationValue}]}>
         <View style={styles.todoItem}>
             <Switch 
                 value={item.completado}
                 onValueChange={() => trocaEstado(item.id)}    
             />
-        <TouchableOpacity onPress={expanded}>
-            <Text style={item.completado ? styles.completedText : styles.text}>
-                {item.tarefa.nome}
-            </Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => deleta(item.id)}>
-            <Text style={styles.deleteButton}>Excluir</Text>
-        </TouchableOpacity>
+            <View style={styles.textContainer}>
+                <TouchableOpacity onPress={expanded}>
+                    <Text style={item.completado ? styles.completedText : styles.text}>
+                        {item.tarefa.nome}
+                    </Text>
+                </TouchableOpacity>
+            </View>
         </View>
         {isExpanded &&  (
             <View>
@@ -50,7 +69,7 @@ const TodoItem = ({ item, trocaEstado, deleta }) => {
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'column',
-        backgroundColor: '#ededed',
+        backgroundColor: '#ffffe8',
         borderBottomWidth: 1,
         borderBottomColor: '#ccc'
     },
@@ -60,19 +79,24 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingVertical: 10,
         paddingHorizontal: 20,
-        backgroundColor: '#fff'
+        backgroundColor: '#ebe3b7'
     },
     text: {
         fontSize: 18,
+        color: '#0b0b0d',
     },
     completedText: {
         fontSize: 18,
         textDecorationLine: 'line-through',
-        color: '#ccc',
+        color: 'green',
     },
     deleteButton: {
         color: 'red',
         fontSize: 18,
+    },
+    textContainer: {
+        flex: 1,
+        alignItems: 'center'
     },
 });
 
