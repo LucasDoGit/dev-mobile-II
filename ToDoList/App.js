@@ -1,11 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Header from './componentes/Header';
-import TodoList from './componentes/ToDoList';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import TelaAddTarefa from './telas/addTarefas';
+import Header from './src/componentes/Header';
+import TodoList from './src/componentes/ToDoList';
+import TelaAddTarefa from './src/telas/addTarefas';
+import TelaLogin from './src/telas/login';
+import TelaAddUser from './src/telas/addUser';
 
 const Stack = createStackNavigator();
 export default function App() {
@@ -35,7 +37,8 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName="Login">
+        <Stack.Screen options={{ headerShown: false}} name="Login" component={TelaLogin} />
         <Stack.Screen name="Home" options={{ headerShown: false }}>
           {() => (
             <View style={styles.container}>
@@ -45,6 +48,7 @@ export default function App() {
             </View>
           )}
         </Stack.Screen>
+        <Stack.Screen options={{ headerShown: false }} name="addUser" component={TelaAddUser} />
         <Stack.Screen
           options={{ headerShown: false }}
           name="addTarefa"
