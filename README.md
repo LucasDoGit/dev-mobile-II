@@ -20,7 +20,7 @@
 
  - *Obs:* Ao executar o aplicativo, é exibido o erro: ```  WARN  Non-serializable values were found in the navigation state. ``` devido a função *addTarefa* ser iniciada como uma variável no app.js. Este erro pode ser desconsiderado para fins de testes.
 
- ![](/ToDoList/assets/print_app/1.0/ToDoList-280.jpeg)
+![](/ToDoList/assets/print_app/1.0/ToDoList-280.jpeg)
 
  ## 1.1 - Login/Registro com Firebase e Gestos (Lista de Tarefas)
  Neste ponto o aplicativo já utiliza gestos para excluir as tarefas adicionadas na lista.
