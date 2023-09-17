@@ -39,6 +39,23 @@ export default function App() {
       });
   }, [])
 
+  const adicionaTarefa = (tarefa) => {
+    const database = getDatabase(firebase);
+    var id = Date.now().toString()
+    const tarefaRef = ref(database, 'tarefas/'+ id);
+    set(tarefaRef, { tarefa: {...tarefa, data: tarefa.data.toString()}, completado: false })
+    .then(() => {
+      setTarefas((Tarefas) => [
+        ...Tarefas,
+        { id: Date.now(), tarefa: tarefa, completado: false },
+      ]);
+      console.log("Tarefa adicionada com sucesso.");
+    })
+    .catch((error) => {
+      console.log("Erro ao adicionar tarefa:", error);
+    })
+  };
+
   const deleta = (tarefaId) => {
     const database = getDatabase(firebase)
     const tarefaRef = ref(database, 'tarefas/'+ tarefaId.toString())
@@ -76,22 +93,7 @@ export default function App() {
       })
   }
 
-  const adicionaTarefa = (tarefa) => {
-    const database = getDatabase(firebase);
-    var id = Date.now().toString()
-    const tarefaRef = ref(database, 'tarefas/'+ id);
-    set(tarefaRef, { tarefa: {...tarefa, data: tarefa.data.toString()}, completado: false })
-    .then(() => {
-      setTarefas((Tarefas) => [
-        ...Tarefas,
-        { id: Date.now(), tarefa: tarefa, completed: false },
-      ]);
-      console.log("Tarefa adicionada com sucesso.");
-    })
-    .catch((error) => {
-      console.log("Erro ao adicionar tarefa:", error);
-    })
-  };
+
 
   return (
     <NavigationContainer>
