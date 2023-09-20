@@ -47,7 +47,7 @@ export default function App() {
     .then(() => {
       setTarefas((Tarefas) => [
         ...Tarefas,
-        { id: Date.now(), tarefa: tarefa, completado: false },
+        { id: id, tarefa: tarefa, completado: false },
       ]);
       console.log("Tarefa adicionada com sucesso.");
     })
