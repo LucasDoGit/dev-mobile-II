@@ -29,7 +29,7 @@
 
 ![](/TodoList/assets/print_app/v1.1/login-280.jpeg) ![](/TodoList/assets/print_app/v1.1/cadastro-280.jpeg)
 
-# 1.2 - Implementação do Firebase Realtime Database
+## 1.2 - Implementação do Firebase Realtime Database
 
 O aplicativo agora armazena as tarefas criadas e suas informações na plataforma do [Firebase](https://firebase.google.com/?hl=pt). Sendo necessário realizar a conexão de um database para que a o aplicativo funcione corretamente.
 
